@@ -9,7 +9,8 @@ configure the application's connection to it.
 ## Local startup: website → mailserver → MailHog
 
 Run all Compose commands below from `docker/`. They use both the base and dev
-files; `compose.yaml` alone does not enable the development relay.
+files. Set `MAIL_RELAY_HOST` explicitly to the actual full MailHog container
+name and internal port in `docker/.env` before starting the capture check.
 
 Set these values in `docker/.env`, preserving the other application settings:
 
@@ -23,14 +24,14 @@ SMTP_PASSWORD=
 SMTP_REQUIRE_TLS=false
 MAIL_HOSTNAME=mail.localhost
 MAIL_DOMAIN=localhost
-MAIL_RELAY_HOST=[mailhog]:1025
 MAIL_SMTP_ONLY=1
 MAIL_ENABLE_IMAP=0
 MAIL_SSL_TYPE=
 MAIL_PERMIT_DOCKER=connected-networks
 ```
 
-The dev Compose file defaults to SMTP-only mode and relay `[mailhog]:1025`.
+The dev Compose file defaults to SMTP-only mode. The relay comes from
+`MAIL_RELAY_HOST`; an empty value means direct delivery, not MailHog capture.
 Use an external recipient domain such as `example.net` in this test: delivery
 to a local mailserver domain can take the local mailbox route instead of the relay.
 No email account, DNS record, certificate or DKIM key is required for this local
@@ -90,6 +91,18 @@ logged by the application as `Feedback delivery failed`; the feedback remains
 saved in its dialogue. Retrying an already saved feedback does not resend mail;
 create a new feedback dialogue for a new delivery check.
 
+## Mailbox access
+
+Configure mailbox mode with `MAIL_SMTP_ONLY=0` and `MAIL_ENABLE_IMAP=1` in
+`docker/.env`. For manual TLS, set `MAIL_SSL_TYPE=manual`, `MAIL_SSL_CERT_PATH`
+and `MAIL_SSL_KEY_PATH`; paths refer to files inside the container through the
+existing config mount. Keep credentials and private keys in ignored files.
+`MAIL_IMAGE` optionally overrides the default image.
+
+Use the same base/dev Compose command to start the mailserver. Configure clients
+with the deployment's address, ports, TLS mode and mailbox credentials. Verify
+sending, reception, Sent copies and read-state synchronization separately.
+
 ## External SMTP provider
 
 For direct delivery from the application to a provider, use:
@@ -121,8 +134,8 @@ the intended deployment before exposing SMTP/IMAP. MailHog is defined in the bas
 Compose file, so start selected production services if it is not wanted.
 
 Choose the actual hostname/domain, TLS certificates, allowed sending clients,
-accounts and DNS records for that deployment. An empty `MAIL_RELAY_HOST` in dev
-still selects MailHog; use production Compose for direct outbound delivery.
+accounts and DNS records for that deployment. An empty `MAIL_RELAY_HOST` means
+direct outbound delivery in either environment.
 For a mailbox deployment, manage accounts with the image's built-in command
 instead of a nonexistent repository `setup.sh`:
 

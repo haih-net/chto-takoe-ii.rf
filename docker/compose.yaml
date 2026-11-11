@@ -167,7 +167,7 @@ services:
       - prometheus
       - loki
   mailserver:
-    image: ghcr.io/docker-mailserver/docker-mailserver:latest
+    image: ${MAIL_IMAGE:-ghcr.io/docker-mailserver/docker-mailserver:latest}
     hostname: ${MAIL_HOSTNAME:-mail.localhost}
     domainname: ${MAIL_DOMAIN:-localhost}
     volumes:
@@ -185,6 +185,8 @@ services:
       - ENABLE_IMAP=${MAIL_ENABLE_IMAP:-1}
       - SMTP_ONLY=${MAIL_SMTP_ONLY:-0}
       - SSL_TYPE=${MAIL_SSL_TYPE:-}
+      - SSL_CERT_PATH=${MAIL_SSL_CERT_PATH:-}
+      - SSL_KEY_PATH=${MAIL_SSL_KEY_PATH:-}
       - PERMIT_DOCKER=${MAIL_PERMIT_DOCKER:-connected-networks}
       - POSTFIX_INET_PROTOCOLS=ipv4
       - DEFAULT_RELAY_HOST=${MAIL_RELAY_HOST:-}
