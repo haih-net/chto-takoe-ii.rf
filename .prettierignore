@@ -1,6 +1,7 @@
 server/database/data
 storage
 uploads
+/project
 generated
 /node_modules
 /build
