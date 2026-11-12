@@ -5,8 +5,9 @@ import { MainPage } from 'app/Custom/pages/MainPage'
 
 export const handle = {
   seo: {
-    title: 'haih.site',
-    description: '',
+    title: 'Что такое ИИ',
+    description:
+      'Как устроены современные ИИ-чаты и агенты: языковая модель, обвязки, инструменты и среда выполнения. Объяснения на примерах переписки и управления светом.',
     path: '/',
     image: undefined,
   },

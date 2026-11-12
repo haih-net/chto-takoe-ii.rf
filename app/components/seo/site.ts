@@ -1,8 +1,9 @@
 export const site = {
-  origin: 'http://localhost:3000',
-  name: '',
+  origin: 'https://xn-----7kcuqak3ad9ac0d.xn--p1ai',
+  name: 'Что такое ИИ',
   language: 'ru',
-  description: '',
+  description:
+    'Мой практический взгляд на ИИ: модель, среда, инструменты и проверка результата. Объясняю, из чего состоят современные ИИ-системы.',
 }
 
 // Preserve the identity published at https://fi1osof.ru/about.

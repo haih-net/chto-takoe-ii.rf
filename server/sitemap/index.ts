@@ -50,7 +50,23 @@ async function generateSitemap(req: Request, res: Response): Promise<void> {
     )
     .whereNot('visibility', 'unpublished')
     .orderBy('updatedAt', 'desc')
-  const xml = generateUrls([{ uri: '/' }, ...concepts], origin)
+  const xml = generateUrls(
+    [
+      { uri: '/' },
+      { uri: '/terms' },
+      { uri: '/terms/language-model' },
+      { uri: '/terms/context' },
+      { uri: '/terms/token' },
+      { uri: '/terms/tokenizer' },
+      { uri: '/terms/prompt' },
+      { uri: '/terms/wrappers' },
+      { uri: '/terms/runtime' },
+      { uri: '/terms/tool' },
+      { uri: '/terms/agent' },
+      ...concepts,
+    ],
+    origin,
+  )
   res.set('Cache-Control', 'no-store').type('application/xml').send(xml)
 }
 

@@ -137,7 +137,14 @@ export const Header: React.FC = () => {
           data-open={isOpen}
           onBlur={handleBlur}
         >
-          <Link to={'/'}>Главная</Link>
+          <Link to={'/'}>Что такое ИИ</Link>
+          <Link
+            to="/terms"
+            onClick={closeMenu}
+            aria-current={location.pathname === '/terms' ? 'page' : undefined}
+          >
+            Справочник
+          </Link>
           {/* <Link
             to="/users"
             onClick={closeMenu}
