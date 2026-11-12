@@ -2,6 +2,7 @@ import squareImage from './assets/chat-square.webp'
 import wideImage from './assets/chat-wide.webp'
 import type { ChatMessage as ChatMessageData } from './interfaces'
 import React, { useEffect, useRef, useState } from 'react'
+import { nanoid } from 'nanoid'
 import { ChatContext, useChatContext } from './context'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ChatWidget as Component } from './'
@@ -83,7 +84,7 @@ const StreamingConversation: React.FC<
     if (!text.trim() || timerRef.current !== null) {
       return
     }
-    const id = crypto.randomUUID()
+    const id = nanoid()
     setMessages((previous) => [
       ...previous,
       { id: `user_${id}`, text: text.trim(), isUser: true },

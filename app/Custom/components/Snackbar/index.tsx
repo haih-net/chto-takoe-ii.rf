@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { nanoid } from 'nanoid'
 import { SnackbarMessageStyled, SnackbarStackStyled } from './styles'
 import {
   SnackbarContext,
@@ -31,7 +32,7 @@ export const SnackbarProvider: React.FC<React.PropsWithChildren> = ({
   }, [])
   const addMessage = useCallback<SnackbarContextValue['addMessage']>(
     (text, options) => {
-      const id = crypto.randomUUID()
+      const id = nanoid()
       const autoHideDuration = options?.autoHideDuration ?? 3000
       setMessages((values) => [
         ...values,
